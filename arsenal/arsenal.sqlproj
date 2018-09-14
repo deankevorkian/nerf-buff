@@ -66,6 +66,6 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="insert_arbitrary_user.sql" />
-    <Build Include="select_all_users.sql" />
+    <None Include="select_all_users.sql" />
   </ItemGroup>
 </Project>
