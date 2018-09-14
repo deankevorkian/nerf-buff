@@ -22,6 +22,12 @@ namespace NerfBuff.Controllers
             return View();
         }
 
+        public IActionResult BuildANerf()
+        {
+            ViewData["Message"] = "wtf is this";
+            return View();
+        }
+
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
