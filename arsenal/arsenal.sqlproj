@@ -58,4 +58,14 @@
   <ItemGroup>
     <Folder Include="Properties" />
   </ItemGroup>
+  <ItemGroup>
+    <Build Include="nb_users.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="arsenal.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="insert_arbitrary_user.sql" />
+    <None Include="select_all_users.sql" />
+  </ItemGroup>
 </Project>
