@@ -65,7 +65,7 @@
     <RefactorLog Include="arsenal.refactorlog" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="insert_arbitrary_user.sql" />
-    <None Include="select_all_users.sql" />
+    <Build Include="insert_arbitrary_user.sql" />
+    <Build Include="select_all_users.sql" />
   </ItemGroup>
 </Project>
