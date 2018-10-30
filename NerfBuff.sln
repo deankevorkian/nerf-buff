@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NerfBuff", "NerfBuff\NerfBuff.csproj", "{2AA97E32-C239-4536-9CE0-99BA5153A39B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NerfBuff", "NerfBuff\NerfBuff.csproj", "{2AA97E32-C239-4536-9CE0-99BA5153A39B}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "arsenal", "arsenal\arsenal.sqlproj", "{CA32B683-9464-44E0-A862-98E0E509A9F1}"
 EndProject

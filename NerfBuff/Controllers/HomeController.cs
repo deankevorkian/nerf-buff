@@ -10,8 +10,13 @@ namespace NerfBuff.Controllers
 {
     public class HomeController : Controller
     {
+        private masterContext context = new masterContext();
+
         public IActionResult Index()
         {
+
+            ViewData["Posts"] = (IEnumerable<Posts>)TempData["Posts"] ?? context.Posts.ToList();
+
             return View();
         }
 

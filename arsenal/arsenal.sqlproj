@@ -59,13 +59,11 @@
     <Folder Include="Properties" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="nb_users.sql" />
+    <Build Include="Posts.sql" />
+    <Build Include="Comments.sql" />
+    <Build Include="Events.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="arsenal.refactorlog" />
-  </ItemGroup>
-  <ItemGroup>
-    <Build Include="insert_arbitrary_user.sql" />
-    <None Include="select_all_users.sql" />
   </ItemGroup>
 </Project>

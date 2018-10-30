@@ -1,10 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
-  <Operation Name="Rename Refactor" Key="821b2dc4-0126-4d0e-bf7f-8dc135a8c5ea" ChangeDateTime="09/14/2018 13:35:33">
-    <Property Name="ElementName" Value="[dbo].[nb_users].[Id]" />
+  <Operation Name="Rename Refactor" Key="d43a31bc-78f5-4135-9b42-e1a2c6de1f79" ChangeDateTime="10/30/2018 12:18:51">
+    <Property Name="ElementName" Value="[dbo].[Comments].[PostI]" />
     <Property Name="ElementType" Value="SqlSimpleColumn" />
-    <Property Name="ParentElementName" Value="[dbo].[nb_users]" />
+    <Property Name="ParentElementName" Value="[dbo].[Comments]" />
     <Property Name="ParentElementType" Value="SqlTable" />
-    <Property Name="NewName" Value="nb_user_id" />
+    <Property Name="NewName" Value="PostID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1d68351b-27cc-4905-a6cd-9ec9ce2eb76e" ChangeDateTime="10/30/2018 12:19:06">
+    <Property Name="ElementName" Value="[dbo].[Comments].[D]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Comments]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Title" />
   </Operation>
 </Operations>
