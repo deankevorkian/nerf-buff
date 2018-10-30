@@ -22,12 +22,6 @@ namespace NerfBuff.Controllers
             return View();
         }
 
-        public IActionResult BuildANerf()
-        {
-            ViewData["Message"] = "wtf is this";
-            return View();
-        }
-
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
@@ -35,7 +29,14 @@ namespace NerfBuff.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+		public IActionResult Events()
+		{
+			ViewData["Message"] = "fortnite events near your area";
+
+			return View();
+		}
+
+		public IActionResult Privacy()
         {
             return View();
         }
