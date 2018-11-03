@@ -9,35 +9,17 @@ using NerfBuff.Models;
 
 namespace NerfBuff.Controllers
 {
-    public class CommentsController : Controller
+    public class EventsController : Controller
     {
         private readonly masterContext _context = new masterContext();
 
-        // GET: Comments
-        public IActionResult Index(string Title, string Author, string Content)
+        // GET: Events
+        public async Task<IActionResult> Index()
         {
-            var masterContext = _context.Comments.Include(c => c.Post).ToList();
-
-
-            if (!string.IsNullOrEmpty(Title))
-            {
-                masterContext = masterContext.Where(c => c.Title.ToUpper().Contains(Title.ToUpper())).ToList();
-            }
-
-            if (!string.IsNullOrEmpty(Author))
-            {
-                masterContext = masterContext.Where(c => c.Author.ToUpper().Contains(Author.ToUpper())).ToList();
-            }
-
-            if (!string.IsNullOrEmpty(Content))
-            {
-                masterContext = masterContext.Where(c => c.Content.ToUpper().Contains(Content.ToUpper())).ToList();
-            }
-
-            return View(masterContext);
+            return View(await _context.Events.ToListAsync());
         }
 
-        // GET: Comments/Details/5
+        // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,42 +27,39 @@ namespace NerfBuff.Controllers
                 return NotFound();
             }
 
-            var comments = await _context.Comments
-                .Include(c => c.Post)
+            var events = await _context.Events
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (comments == null)
+            if (events == null)
             {
                 return NotFound();
             }
 
-            return View(comments);
+            return View(events);
         }
 
-        // GET: Comments/Create
+        // GET: Events/Create
         public IActionResult Create()
         {
-            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Id");
             return View();
         }
 
-        // POST: Comments/Create
+        // POST: Events/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PostId,Title,Author,Content,Date")] Comments comments)
+        public async Task<IActionResult> Create([Bind("Id,Title,Time,Location,Author")] Events events)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(comments);
+                _context.Add(events);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Id", comments.PostId);
-            return View(comments);
+            return View(events);
         }
 
-        // GET: Comments/Edit/5
+        // GET: Events/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -88,23 +67,22 @@ namespace NerfBuff.Controllers
                 return NotFound();
             }
 
-            var comments = await _context.Comments.FindAsync(id);
-            if (comments == null)
+            var events = await _context.Events.FindAsync(id);
+            if (events == null)
             {
                 return NotFound();
             }
-            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Id", comments.PostId);
-            return View(comments);
+            return View(events);
         }
 
-        // POST: Comments/Edit/5
+        // POST: Events/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PostId,Title,Author,Content,Date")] Comments comments)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Time,Location,Author")] Events events)
         {
-            if (id != comments.Id)
+            if (id != events.Id)
             {
                 return NotFound();
             }
@@ -113,12 +91,12 @@ namespace NerfBuff.Controllers
             {
                 try
                 {
-                    _context.Update(comments);
+                    _context.Update(events);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CommentsExists(comments.Id))
+                    if (!EventsExists(events.Id))
                     {
                         return NotFound();
                     }
@@ -129,11 +107,10 @@ namespace NerfBuff.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Id", comments.PostId);
-            return View(comments);
+            return View(events);
         }
 
-        // GET: Comments/Delete/5
+        // GET: Events/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -141,31 +118,30 @@ namespace NerfBuff.Controllers
                 return NotFound();
             }
 
-            var comments = await _context.Comments
-                .Include(c => c.Post)
+            var events = await _context.Events
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (comments == null)
+            if (events == null)
             {
                 return NotFound();
             }
 
-            return View(comments);
+            return View(events);
         }
 
-        // POST: Comments/Delete/5
+        // POST: Events/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var comments = await _context.Comments.FindAsync(id);
-            _context.Comments.Remove(comments);
+            var events = await _context.Events.FindAsync(id);
+            _context.Events.Remove(events);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CommentsExists(int id)
+        private bool EventsExists(int id)
         {
-            return _context.Comments.Any(e => e.Id == id);
+            return _context.Events.Any(e => e.Id == id);
         }
     }
 }

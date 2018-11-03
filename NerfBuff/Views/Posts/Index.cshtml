@@ -3,52 +3,55 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    ViewBag.IsUserAdmin = true;
 }
 
-<h2>Index</h2>
+<h2>Fortnite Nerfs Blog</h2>
 
+@if ((bool)ViewBag.IsUserAdmin)
+{
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Author)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Content)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
 }
-    </tbody>
-</table>
+
+
+<form asp-controller="Posts" asp-action="Index">
+    <p>
+        Title: <input type="text" name="Title"> Author: <input type="text" name="Author"> Content: <input type="text" name="Content">
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
+@foreach (var post in Model)
+{
+
+<article class="blogPost">
+    <header>
+        <h2>@(post.Title)</h2>
+        <p>
+            Posted on @(post.Date) by @(post.Author)
+        </p>
+
+    </header>
+    <p>@(post.Content)</p>
+
+    @if ((bool)ViewBag.IsUserAdmin)
+    {
+        <p>
+            <a asp-action="Edit" asp-route-id="@post.Id">Edit</a> |
+            <a asp-action="Details" asp-route-id="@post.Id">Details</a> |
+            <a asp-action="Delete" asp-route-id="@post.Id">Delete</a>
+        </p>
+    }
+
+    <h3>Comments:</h3>
+
+    @foreach (var comment in post.Comments)
+    {
+        <p>@(comment.Title) Posted on @(comment.Date) by @(comment.Author)</p>
+        <p>@(comment.Content)</p>
+    }
+</article>
+}

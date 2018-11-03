@@ -1,0 +1,91 @@
+﻿@model IEnumerable<NerfBuff.Models.Events>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<div class="row">
+    @using (Html.BeginForm("Search", "Events"))
+    {
+        <div class="form-horizontal">
+            <h4>Search Events</h4>
+            <hr />
+            <div class="form-group">
+                <span class="control-label col-md-2">@Html.DisplayNameFor(model => model.Title)</span>
+                @Html.TextBox("Title", "", new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <span class="control-label col-md-2">@Html.DisplayNameFor(model => model.Category)</span>
+                @Html.DropDownList("CategoryID", (IEnumerable<SelectListItem>)ViewBag.Categories, "Select Category", new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <span class="control-label col-md-2">@Html.DisplayNameFor(model => model.Place)</span>
+                @Html.DropDownList("PlaceID", (IEnumerable<SelectListItem>)ViewBag.Places, "Select Place", new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <span class="control-label col-md-2">@Html.DisplayNameFor(model => model.Text)</span>
+                @Html.TextBox("Text", "", new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <span class="control-label col-md-2">@Html.DisplayNameFor(model => model.Date)</span>
+                @Html.TextBox("Date", "", new { @class = "form-control date-picker" })
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                    @Html.ActionLink("Reset Search", "Index", null, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

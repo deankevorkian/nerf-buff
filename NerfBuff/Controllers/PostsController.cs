@@ -11,18 +11,28 @@ namespace NerfBuff.Controllers
 {
     public class PostsController : Controller
     {
-        //private readonly masterContext _context;
         private masterContext _context = new masterContext();
 
-        //public PostsController(masterContext context)
-        //{
-        //    _context = context;
-        //}
-
         // GET: Posts
-        public async Task<IActionResult> Index()
+        public IActionResult Index(string Title, string Author, string Content)
         {
-            return View(await _context.Posts.ToListAsync());
+            var masterContext = _context.Posts.Include(c => c.Comments).ToList();
+            if (!string.IsNullOrEmpty(Title))
+            {
+                masterContext = _context.Posts.Where(c => c.Title.ToUpper().Contains(Title.ToUpper())).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(Author))
+            {
+                masterContext = _context.Posts.Where(c => c.Author.ToUpper().Contains(Author.ToUpper())).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(Content))
+            {
+                masterContext = _context.Posts.Where(c => c.Content.ToUpper().Contains(Content.ToUpper())).ToList();
+            }
+
+            return View(masterContext);
         }
 
         // GET: Posts/Details/5
