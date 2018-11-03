@@ -11,5 +11,7 @@ namespace NerfBuff.Models
         public string Author { get; set; }
         public string Content { get; set; }
         public DateTime? Date { get; set; }
+
+        public Posts Post { get; set; }
     }
 }

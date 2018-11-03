@@ -4,5 +4,5 @@
     [Title] NCHAR(30) NULL, 
     [Author] NCHAR(30) NULL, 
     [Date] DATETIME NULL, 
-    [Content] NCHAR(500) NULL
+    [Content] NCHAR(500) NULL, 
 )

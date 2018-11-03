@@ -14,4 +14,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="Title" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="6196d2ed-8e26-4c32-9dac-3f4dd071ebeb" ChangeDateTime="11/03/2018 10:52:26">
+    <Property Name="ElementName" Value="[dbo].[Posts].[CommentID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Posts]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CommentsID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="890f1c9d-4204-44ab-b45d-bc8cef436430" ChangeDateTime="11/03/2018 10:55:53">
+    <Property Name="ElementName" Value="[dbo].[FK_Posts_ToTable]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[Posts]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[FK_Posts_Comments]" />
+  </Operation>
 </Operations>
