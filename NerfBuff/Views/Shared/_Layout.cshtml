@@ -26,14 +26,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">NerfBuff Blog</a>
+                <a asp-area="" asp-controller="Posts" asp-action="Index" class="navbar-brand">NerfBuff Blog</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Blog</a></li>
-                    <li><a asp-area="" asp-controller="Posts" asp-action="Index">Posts</a></li>
+                    <li><a asp-area="" asp-controller="Posts" asp-action="Index">Blog</a></li>
                     <li><a asp-area="" asp-controller="Comments" asp-action="Index">Comments</a></li>
-                    <li><a asp-area="" asp-controller="Event" asp-action="Events">Events</a></li>
+                    <li><a asp-area="" asp-controller="Events" asp-action="Index">Events</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
@@ -55,6 +54,7 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/Blog.js"></script>
     </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"

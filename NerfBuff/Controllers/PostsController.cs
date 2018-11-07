@@ -24,12 +24,12 @@ namespace NerfBuff.Controllers
 
             if (!string.IsNullOrEmpty(Author))
             {
-                masterContext = _context.Posts.Where(c => c.Author.ToUpper().Contains(Author.ToUpper())).ToList();
+                masterContext = _context.Posts.Where(c => c.Author.ToUpper().Contains(Author.ToUpper()) || c.Comments.Any((y) => y.Author.ToUpper().Contains(Author.ToUpper()))).ToList();
             }
 
             if (!string.IsNullOrEmpty(Content))
             {
-                masterContext = _context.Posts.Where(c => c.Content.ToUpper().Contains(Content.ToUpper())).ToList();
+                masterContext = _context.Posts.Where(c => c.Content.ToUpper().Contains(Content.ToUpper()) || c.Comments.Any((y) => y.Content.ToUpper().Contains(Content.ToUpper()))).ToList();
             }
 
             return View(masterContext);

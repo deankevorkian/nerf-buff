@@ -33,6 +33,7 @@ namespace NerfBuff.Controllers
             {
                 masterContext = masterContext.Where(c => c.Content.ToUpper().Contains(Content.ToUpper())).ToList();
             }
+            masterContext.OrderBy((x) => x.Date);
 
             return View(masterContext);
         }
@@ -58,7 +59,7 @@ namespace NerfBuff.Controllers
 
         // GET: Comments/Create
         public IActionResult Create()
-        {
+         {
             ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Id");
             return View();
         }
@@ -70,14 +71,33 @@ namespace NerfBuff.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,PostId,Title,Author,Content,Date")] Comments comments)
         {
-            if (ModelState.IsValid)
-            {
+                comments.Author = comments.Author == null ? "Anon": comments.Author;
+                comments.Date = DateTime.Now;
+                if (CommentsExists(comments.Id))
+                {
+                    var z = _context.Comments.Select((x) => x.Id).OrderByDescending((y) => y).ToList();
+                    comments.Id = z[0] + 1;
+                }
                 _context.Add(comments);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCommentAsync(Comments comment)
+        {
+            comment.Author = comment.Author == null ? "Anon" : comment.Author;
+            comment.Date = DateTime.Now;
+            if (CommentsExists(comment.Id))
+            {
+                var z = _context.Comments.Select((x) => x.Id).OrderByDescending((y) => y).ToList();
+                comment.Id = z[0] + 1;
             }
-            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Id", comments.PostId);
-            return View(comments);
+            _context.Add(comment);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Comments/Edit/5
