@@ -66,19 +66,15 @@ namespace NerfBuff.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Author,Date,Content")] Posts posts)
         {
-            if (ModelState.IsValid)
+            if (PostsExists(posts.Id))
             {
-                if (PostsExists(posts.Id))
-                {
-                    var z = _context.Posts.Select((x) => x.Id).OrderByDescending((y) => y).ToList();
-                    posts.Id = z[0] + 1;
-                }
-
-                _context.Add(posts);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var z = _context.Posts.Select((x) => x.Id).OrderByDescending((y) => y).ToList();
+                posts.Id = z[0] + 1;
             }
-            return View(posts);
+
+            _context.Add(posts);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Posts/Edit/5
