@@ -62,8 +62,12 @@
     <Build Include="Posts.sql" />
     <Build Include="Comments.sql" />
     <Build Include="Events.sql" />
+    <Build Include="Users.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="arsenal.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="arsenal.publish.xml" />
   </ItemGroup>
 </Project>

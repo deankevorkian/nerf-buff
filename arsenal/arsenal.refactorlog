@@ -28,4 +28,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="[FK_Posts_Comments]" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="e4cb1987-a833-4fb4-9403-2fa8ca99b712" ChangeDateTime="11/09/2018 11:46:36">
+    <Property Name="ElementName" Value="[dbo].[Users].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Users]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="username" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3160be6e-7002-46df-8bbc-84af3a7aecfc" ChangeDateTime="11/09/2018 11:46:55">
+    <Property Name="ElementName" Value="[dbo].[Users].[username]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Users]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="blog_user_name" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5250204f-510d-4cdd-9023-7b824528da02" ChangeDateTime="11/09/2018 11:47:02">
+    <Property Name="ElementName" Value="[dbo].[Users].[user_password]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Users]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="blog_user_password" />
+  </Operation>
 </Operations>
