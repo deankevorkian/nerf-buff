@@ -11,18 +11,25 @@ namespace NerfBuff.Controllers
 {
     public class CommentsController : Controller
     {
-        private readonly masterContext _context;
-
-        public CommentsController(masterContext context)
-        {
-            _context = context;
-        }
+        private readonly masterContext _context = new masterContext();
 
         // GET: Comments
-        public async Task<IActionResult> Index()
+        public IActionResult Index(string Author, string Content)
         {
-            var masterContext = _context.Comments.Include(c => c.Post);
-            return View(await masterContext.ToListAsync());
+            var masterContext = _context.Comments.Include(c => c.Post).ToList();
+
+            if (!string.IsNullOrEmpty(Author))
+            {
+                masterContext = masterContext.Where(c => c.Author.ToUpper().Contains(Author.ToUpper())).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(Content))
+            {
+                masterContext = masterContext.Where(c => c.Content.ToUpper().Contains(Content.ToUpper())).ToList();
+            }
+            masterContext.OrderBy((x) => x.Date);
+
+            return View(masterContext);
         }
 
         // GET: Comments/Details/5
@@ -47,7 +54,7 @@ namespace NerfBuff.Controllers
         // GET: Comments/Create
         public IActionResult Create()
         {
-            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Author");
+            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Id");
             return View();
         }
 
@@ -58,14 +65,33 @@ namespace NerfBuff.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,PostId,Author,Content,Date")] Comments comments)
         {
-            if (ModelState.IsValid)
+            comments.Author = comments.Author == null ? "Anon" : comments.Author;
+            comments.Date = DateTime.Now;
+            if (CommentsExists(comments.Id))
             {
-                _context.Add(comments);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var z = _context.Comments.Select((x) => x.Id).OrderByDescending((y) => y).ToList();
+                comments.Id = z[0] + 1;
             }
-            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Author", comments.PostId);
-            return View(comments);
+            _context.Add(comments);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCommentAsync(Comments comment)
+        {
+            comment.Author = comment.Author == null ? "Anon" : comment.Author;
+            comment.Date = DateTime.Now;
+            if (CommentsExists(comment.Id))
+            {
+                var z = _context.Comments.Select((x) => x.Id).OrderByDescending((y) => y).ToList();
+                comment.Id = z[0] + 1;
+            }
+            _context.Add(comment);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Comments/Edit/5
@@ -81,7 +107,7 @@ namespace NerfBuff.Controllers
             {
                 return NotFound();
             }
-            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Author", comments.PostId);
+            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Id", comments.PostId);
             return View(comments);
         }
 
@@ -90,7 +116,7 @@ namespace NerfBuff.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PostId,Author,Content,Date")] Comments comments)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PostId,Title,Author,Content,Date")] Comments comments)
         {
             if (id != comments.Id)
             {
@@ -117,7 +143,7 @@ namespace NerfBuff.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Author", comments.PostId);
+            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Id", comments.PostId);
             return View(comments);
         }
 
