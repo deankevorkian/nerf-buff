@@ -18,6 +18,7 @@ namespace NerfBuff.Models
         public virtual DbSet<Comments> Comments { get; set; }
         public virtual DbSet<Events> Events { get; set; }
         public virtual DbSet<Posts> Posts { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -34,19 +35,22 @@ namespace NerfBuff.Models
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.Author).HasMaxLength(30);
+                entity.Property(e => e.Author)
+                    .IsRequired()
+                    .HasMaxLength(30);
 
-                entity.Property(e => e.Content).HasMaxLength(500);
+                entity.Property(e => e.Content)
+                    .IsRequired()
+                    .HasMaxLength(500);
 
                 entity.Property(e => e.Date).HasColumnType("datetime");
 
                 entity.Property(e => e.PostId).HasColumnName("PostID");
 
-                entity.Property(e => e.Title).HasMaxLength(30);
-
                 entity.HasOne(d => d.Post)
                     .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.PostId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Comments_ToPost");
             });
 
@@ -54,26 +58,55 @@ namespace NerfBuff.Models
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.Author).HasMaxLength(10);
+                entity.Property(e => e.Author)
+                    .IsRequired()
+                    .HasMaxLength(10);
 
-                entity.Property(e => e.Location).HasMaxLength(100);
+                entity.Property(e => e.Location)
+                    .IsRequired()
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.Time).HasColumnType("datetime");
 
-                entity.Property(e => e.Title).HasMaxLength(10);
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(10);
             });
 
             modelBuilder.Entity<Posts>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.Author).HasMaxLength(30);
+                entity.Property(e => e.Author)
+                    .IsRequired()
+                    .HasMaxLength(30);
 
-                entity.Property(e => e.Content).HasMaxLength(500);
+                entity.Property(e => e.Content)
+                    .IsRequired()
+                    .HasMaxLength(500);
 
                 entity.Property(e => e.Date).HasColumnType("datetime");
 
-                entity.Property(e => e.Title).HasMaxLength(30);
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(30);
+            });
+
+            modelBuilder.Entity<Users>(entity =>
+            {
+                entity.HasKey(e => e.BlogUserName);
+
+                entity.Property(e => e.BlogUserName)
+                    .HasColumnName("blog_user_name")
+                    .HasMaxLength(20)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.BlogIsAdmin).HasColumnName("blog_is_admin");
+
+                entity.Property(e => e.BlogUserPassword)
+                    .IsRequired()
+                    .HasColumnName("blog_user_password")
+                    .HasMaxLength(10);
             });
         }
     }
