@@ -19,7 +19,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="PostId" class="control-label"></label>
-                <select asp-for="PostId" class ="form-control" asp-items="ViewBag.PostId"></select>
+                <select asp-for="PostId" class="form-control" asp-items="ViewBag.PostId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Author" class="control-label"></label>
@@ -39,6 +39,34 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
+            <a href="https://twitter.com/intent/tweet?button_hashtag=nerfBuff&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Tweet #nerfBuff</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+            <div id="map" style="height:500px">
+            </div>
+            <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=ApE76x2wWpJAOCGUZE4TJl46UDPFVlyjyC4lBQhndPs8KozGWyVH4_Ol-zV-3eOA'>
+
+                function map(address) {
+                    $.get('https://dev.virtualearth.net/REST/v1/Locations', {
+                        countryRegion: "IL",
+                        addressLine: address,
+                        maxResaults: 1,
+                        key: "ApE76x2wWpJAOCGUZE4TJl46UDPFVlyjyC4lBQhndPs8KozGWyVH4_Ol-zV-3eOA"
+                    }, function (data) {
+                        var coordinates = data.resourceSets[0].resources[0].point.coordinates;
+
+                        var map = new Microsoft.Maps.Map(document.getElementById('map'), {
+                            center: new Microsoft.Maps.Location(coordinates[0], coordinates[1]),
+                            mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+                            zoom: 15
+                        });
+
+                        var pushpin = new Microsoft.Maps.Pushpin(map.getCenter(), null);
+                        map.entities.push(pushpin);
+                    });
+                }
+            </script>
+
         </form>
     </div>
 </div>
@@ -49,4 +77,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
 }
