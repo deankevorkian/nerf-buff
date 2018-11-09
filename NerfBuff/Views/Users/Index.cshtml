@@ -1,0 +1,41 @@
+﻿@model IEnumerable<NerfBuff.Models.Users>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogUserPassword)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogIsAdmin)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BlogUserPassword)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BlogIsAdmin)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.BlogUserName">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.BlogUserName">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.BlogUserName">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

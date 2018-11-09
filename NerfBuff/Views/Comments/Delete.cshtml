@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Delete";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Delete</h2>
@@ -12,12 +11,6 @@
     <h4>Comments</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Author)
         </dt>
@@ -40,7 +33,7 @@
             @Html.DisplayNameFor(model => model.Post)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Post.Id)
+            @Html.DisplayFor(model => model.Post.Author)
         </dd>
     </dl>
     

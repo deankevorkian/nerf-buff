@@ -9,90 +9,85 @@ using NerfBuff.Models;
 
 namespace NerfBuff.Controllers
 {
-    public class CommentsController : Controller
+    public class UsersController : Controller
     {
         private readonly masterContext _context;
 
-        public CommentsController(masterContext context)
+        public UsersController(masterContext context)
         {
             _context = context;
         }
 
-        // GET: Comments
+        // GET: Users
         public async Task<IActionResult> Index()
         {
-            var masterContext = _context.Comments.Include(c => c.Post);
-            return View(await masterContext.ToListAsync());
+            return View(await _context.Users.ToListAsync());
         }
 
-        // GET: Comments/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Users/Details/5
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var comments = await _context.Comments
-                .Include(c => c.Post)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (comments == null)
+            var users = await _context.Users
+                .FirstOrDefaultAsync(m => m.BlogUserName == id);
+            if (users == null)
             {
                 return NotFound();
             }
 
-            return View(comments);
+            return View(users);
         }
 
-        // GET: Comments/Create
+        // GET: Users/Create
         public IActionResult Create()
         {
-            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Author");
             return View();
         }
 
-        // POST: Comments/Create
+        // POST: Users/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PostId,Author,Content,Date")] Comments comments)
+        public async Task<IActionResult> Create([Bind("BlogUserName,BlogUserPassword,BlogIsAdmin")] Users users)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(comments);
+                _context.Add(users);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Author", comments.PostId);
-            return View(comments);
+            return View(users);
         }
 
-        // GET: Comments/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // GET: Users/Edit/5
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var comments = await _context.Comments.FindAsync(id);
-            if (comments == null)
+            var users = await _context.Users.FindAsync(id);
+            if (users == null)
             {
                 return NotFound();
             }
-            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Author", comments.PostId);
-            return View(comments);
+            return View(users);
         }
 
-        // POST: Comments/Edit/5
+        // POST: Users/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PostId,Author,Content,Date")] Comments comments)
+        public async Task<IActionResult> Edit(string id, [Bind("BlogUserName,BlogUserPassword,BlogIsAdmin")] Users users)
         {
-            if (id != comments.Id)
+            if (id != users.BlogUserName)
             {
                 return NotFound();
             }
@@ -101,12 +96,12 @@ namespace NerfBuff.Controllers
             {
                 try
                 {
-                    _context.Update(comments);
+                    _context.Update(users);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CommentsExists(comments.Id))
+                    if (!UsersExists(users.BlogUserName))
                     {
                         return NotFound();
                     }
@@ -117,43 +112,41 @@ namespace NerfBuff.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Author", comments.PostId);
-            return View(comments);
+            return View(users);
         }
 
-        // GET: Comments/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        // GET: Users/Delete/5
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var comments = await _context.Comments
-                .Include(c => c.Post)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (comments == null)
+            var users = await _context.Users
+                .FirstOrDefaultAsync(m => m.BlogUserName == id);
+            if (users == null)
             {
                 return NotFound();
             }
 
-            return View(comments);
+            return View(users);
         }
 
-        // POST: Comments/Delete/5
+        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var comments = await _context.Comments.FindAsync(id);
-            _context.Comments.Remove(comments);
+            var users = await _context.Users.FindAsync(id);
+            _context.Users.Remove(users);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CommentsExists(int id)
+        private bool UsersExists(string id)
         {
-            return _context.Comments.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.BlogUserName == id);
         }
     }
 }

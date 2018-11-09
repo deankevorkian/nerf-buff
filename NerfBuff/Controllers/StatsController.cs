@@ -16,7 +16,7 @@ namespace NerfBuff.Models
         {
             Stats Charts = new Stats
             {
-                PostsCountByMonth = _context.Posts.GroupBy(x => x.Date.Value.Month).
+                PostsCountByMonth = _context.Posts.GroupBy(x => x.Date.Month).
                 Select(c => new { Month = c.Key, Count = c.Count() }).
                 ToDictionary(c => CultureInfo.CurrentCulture.DateTimeFormat.
                 GetAbbreviatedMonthName(c.Month), c => c.Count),

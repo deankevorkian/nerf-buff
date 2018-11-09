@@ -1,0 +1,30 @@
+﻿@model NerfBuff.Models.Users
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Users</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BlogUserPassword)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BlogUserPassword)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BlogIsAdmin)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BlogIsAdmin)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.BlogUserName">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
