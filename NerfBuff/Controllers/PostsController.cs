@@ -68,6 +68,12 @@ namespace NerfBuff.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (PostsExists(posts.Id))
+                {
+                    var z = _context.Posts.Select((x) => x.Id).OrderByDescending((y) => y).ToList();
+                    posts.Id = z[0] + 1;
+                }
+
                 _context.Add(posts);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

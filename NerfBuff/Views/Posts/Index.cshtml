@@ -7,7 +7,7 @@
     ViewBag.IsUserAdmin = true;
 }
 
-<h2>Fortnite Nerfs Blog</h2>
+<h1>Fortnite Nerfs Blog</h1>
 
 @if ((bool)ViewBag.IsUserAdmin)
 {
@@ -30,12 +30,12 @@
 <article class="blogPost">
     <header>
         <h2>@(post.Title)</h2>
-        <p>
+        <p style="font-size:18px">
             Posted on @(post.Date) by @(post.Author)
         </p>
 
     </header>
-    <p>@(post.Content)</p>
+    <p style="font-size:16px">@(post.Content)</p>
 
     @if ((bool)ViewBag.IsUserAdmin)
     {
@@ -54,16 +54,17 @@
         <p>@(comment.Content)</p>
     }
 
-    <p>
-        <div class="form-group">
-            Add a comment:
-            <input type="text" id="newComment@(post.Id)" class="form-control"/>
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Submit" class="btn btn-default" onclick="PostComment(@post.Id)"/>
-        </div>
-    </p>
-
+    <button>view comments</button>
+        <p>
+            <div class="form-group">
+                Add a comment:
+                <textarea id="newComment@(post.Id)" class="form-control"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-default" onclick="PostComment(@post.Id)" />
+            </div>
+        </p>
 </article>
     <hr />
 }
