@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Accord.MachineLearning;
+using Accord.Math.Distances;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -170,6 +172,15 @@ namespace NerfBuff.Controllers
         public IActionResult CurrentEvents()
         {
             return View();
+        }
+
+        private int? GetRecommendedEventForUser()
+        {
+            const int kNeighbors = 3;
+
+            var knn = new KNearestNeighbors<double[]>(kNeighbors, distance: new SquareEuclidean());
+
+            var visitedEvents = _context.Events.Where(event => event.)
         }
     }
 }

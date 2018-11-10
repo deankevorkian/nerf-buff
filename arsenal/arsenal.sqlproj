@@ -63,12 +63,13 @@
     <Build Include="Comments.sql" />
     <Build Include="Events.sql" />
     <Build Include="Users.sql" />
+    <Build Include="event_to_user.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="arsenal.refactorlog" />
   </ItemGroup>
   <ItemGroup>
     <None Include="arsenal.publish.xml" />
-    <PostDeploy Include="users_init.sql" />
+    <PostDeploy Include="init_script.sql" />
   </ItemGroup>
 </Project>
