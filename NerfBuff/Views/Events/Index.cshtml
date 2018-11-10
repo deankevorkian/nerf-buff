@@ -101,8 +101,8 @@
                 EventsLocations.forEach(function (eventLocation) {
 
                     //Create custom Pushpin
-                    var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(eventLocation.Long, eventLocation.Lat), {
-                        text: element.acronyms
+                    var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(eventLocation.lat, eventLocation.long), {
+                        title: eventLocation.eventName
                     });
 
                     //Add the pushpin to the map

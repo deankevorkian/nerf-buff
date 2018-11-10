@@ -16,6 +16,7 @@ namespace NerfBuff.Controllers
     {
         public double Long;
         public double Lat;
+        public string EventName;
     }
     public class EventsController : Controller
     {
@@ -30,6 +31,7 @@ namespace NerfBuff.Controllers
                 {
                     Long = Event.Long,
                     Lat = Event.Lat,
+                    EventName = Event.Title
                 };
 
             return Json(EventsLocations.ToList());
