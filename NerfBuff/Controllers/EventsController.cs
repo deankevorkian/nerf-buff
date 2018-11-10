@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,12 +10,32 @@ using NerfBuff.Models;
 
 namespace NerfBuff.Controllers
 {
+    public class Location
+    {
+        public double Long;
+        public double Lat;
+    }
     public class EventsController : Controller
     {
         private readonly masterContext _context = new masterContext();
 
-        // GET: Events
-        public async Task<IActionResult> Index()
+        [AllowAnonymous]
+        public IActionResult EventsLocations()
+        {
+            var EventsLocations =
+                from Event in _context.Events
+                select new Location
+                {
+                    Long = Event.Long,
+                    Lat = Event.Lat,
+                };
+
+            return Json(EventsLocations.ToList());
+        }
+
+
+    // GET: Events
+    public async Task<IActionResult> Index()
         {
             return View(await _context.Events.ToListAsync());
         }
@@ -48,7 +69,7 @@ namespace NerfBuff.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Time,Location,Author")] Events events)
+        public async Task<IActionResult> Create([Bind("Id,Title,Time,Long,Lat,Author")] Events events)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +101,7 @@ namespace NerfBuff.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Time,Location,Author")] Events events)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Time,Long,Lat,Author")] Events events)
         {
             if (id != events.Id)
             {

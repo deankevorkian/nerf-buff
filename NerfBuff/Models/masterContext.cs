@@ -62,7 +62,10 @@ namespace NerfBuff.Models
                     .IsRequired()
                     .HasMaxLength(10);
 
-                entity.Property(e => e.Location)
+                entity.Property(e => e.Long)
+                    .IsRequired()
+                    .HasMaxLength(100);
+                entity.Property(e => e.Lat)
                     .IsRequired()
                     .HasMaxLength(100);
 
