@@ -24,6 +24,11 @@ namespace NerfBuff.Controllers
 
         public IActionResult Login()
         {
+            if (HttpContext.Session.TryGetValue("UserName", out var userJson))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
 
@@ -41,13 +46,22 @@ namespace NerfBuff.Controllers
                     ModelState.AddModelError("", "The Username or Password you entered are incorrect. Please check your info and try again.");
                     return View();
                 }
-
-                HttpContext.Session.SetString("UserJson", JsonConvert.SerializeObject(result));
+                
+                HttpContext.Session.SetString("UserName", result.BlogUserName.Trim());
+                HttpContext.Session.SetString("IsAdmin", result.BlogIsAdmin.ToString());
 
                 return RedirectToAction("Index", "Home", null);
             }
 
             return View();
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("UserName");
+            HttpContext.Session.Remove("IsAdmin");
+
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Users/Details/5
