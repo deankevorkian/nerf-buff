@@ -16,6 +16,11 @@
         }, function (data) {
             var coordinates = data.resourceSets[0].resources[0].point.coordinates;
 
+            map = new Microsoft.Maps.Map('#myMap', {
+                credentials: 'AsYxj9oP7Drg1hmS86jOLLLtiemAKHzT-qQk5HE30VqKNjzYtwA_0EtKqSDKj-WC',
+                center: new Microsoft.Maps.Location(48.13641, 11.57754)
+            });
+
             var map = new Microsoft.Maps.Map(document.getElementById('map'), {
                 center: new Microsoft.Maps.Location(coordinates[0], coordinates[1]),
                 mapTypeId: Microsoft.Maps.MapTypeId.aerial,

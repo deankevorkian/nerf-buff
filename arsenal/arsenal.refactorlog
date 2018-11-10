@@ -49,4 +49,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="blog_user_password" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="1436ef70-a8cd-4a30-b07a-3310f2f1da83" ChangeDateTime="11/10/2018 12:51:34">
+    <Property Name="ElementName" Value="[dbo].[Events].[Location]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Events]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Country" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3fdbd128-1a12-4f8c-a70f-3afe21283a6a" ChangeDateTime="11/10/2018 12:52:39">
+    <Property Name="ElementName" Value="[dbo].[Events].[Author]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Events]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="City" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="26f41f36-9153-4c55-8012-4cd7dbae5e7b" ChangeDateTime="11/10/2018 13:50:47">
+    <Property Name="ElementName" Value="[dbo].[Events].[Long]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Events]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Long" />
+  </Operation>
 </Operations>

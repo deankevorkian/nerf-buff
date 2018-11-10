@@ -21,7 +21,10 @@
                 @Html.DisplayNameFor(model => model.Time)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Location)
+                @Html.DisplayNameFor(model => model.Long)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lat)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Author)
@@ -39,7 +42,10 @@
                 @Html.DisplayFor(modelItem => item.Time)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Location)
+                @Html.DisplayFor(modelItem => item.Long)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lat)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Author)
@@ -53,3 +59,58 @@
 }
     </tbody>
 </table>
+<section id="Map" style="padding: 2px; width: 600px; height: 450px; margin-left:100px;">
+    <script type='text/javascript'
+            src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap'
+            async defer>
+    </script>
+    <script type='text/javascript'>
+
+        var map;
+
+        function GetMap() {
+            map = new Microsoft.Maps.Map('#Map', {
+                credentials: 'ApE76x2wWpJAOCGUZE4TJl46UDPFVlyjyC4lBQhndPs8KozGWyVH4_Ol-zV-3eOA',
+                center: new Microsoft.Maps.Location(31.0461, 34.8516)
+            });
+
+            var pushpin = new Microsoft.Maps.Pushpin(map.getCenter(), null);
+            map.entities.push(pushpin);
+
+
+            $.ajax({
+                url: '/Events/EventsLocations',
+                success: function (result) {
+                    var usersData = result;
+
+                    addLocationsToMap(usersData);
+                },
+                error: function (hxr, status, err) {
+                    console.log('status: ' + status + ', error: ' + err);
+                }
+            });
+
+
+            function addLocationsToMap(EventsLocations) {
+
+                //var map = new Microsoft.Maps.Map('#myMap', {
+                //    credentials: 'AsYxj9oP7Drg1hmS86jOLLLtiemAKHzT-qQk5HE30VqKNjzYtwA_0EtKqSDKj-WC',
+                //    center: new Microsoft.Maps.Location(48.13641, 11.57754)
+                //});
+
+                EventsLocations.forEach(function (eventLocation) {
+
+                    //Create custom Pushpin
+                    var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(eventLocation.Long, eventLocation.Lat), {
+                        text: element.acronyms
+                    });
+
+                    //Add the pushpin to the map
+                    map.entities.push(pin);
+                })
+            }
+        }
+
+    </script>
+
+</section>

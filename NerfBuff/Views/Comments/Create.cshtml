@@ -1,53 +1,11 @@
 ﻿@model NerfBuff.Models.Comments
-<script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=ApE76x2wWpJAOCGUZE4TJl46UDPFVlyjyC4lBQhndPs8KozGWyVH4_Ol-zV-3eOA'>
 
-    function map(address) {
-        $.get('https://dev.virtualearth.net/REST/v1/Locations', {
-            countryRegion: "IL",
-            addressLine: address,
-            maxResaults: 1,
-            key: "ApE76x2wWpJAOCGUZE4TJl46UDPFVlyjyC4lBQhndPs8KozGWyVH4_Ol-zV-3eOA"
-        }, function (data) {
-            var coordinates = data.resourceSets[0].resources[0].point.coordinates;
-
-            var map = new Microsoft.Maps.Map(document.getElementById('map'), {
-                center: new Microsoft.Maps.Location(coordinates[0], coordinates[1]),
-                mapTypeId: Microsoft.Maps.MapTypeId.aerial,
-                zoom: 15
-            });
-
-            var pushpin = new Microsoft.Maps.Pushpin(map.getCenter(), null);
-            map.entities.push(pushpin);
-        });
-    }
-</script>
 @{
     ViewData["Title"] = "Create";
 }
 
 <h2>Create</h2>
-<script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=ApE76x2wWpJAOCGUZE4TJl46UDPFVlyjyC4lBQhndPs8KozGWyVH4_Ol-zV-3eOA'>
 
-    function map(address) {
-        $.get('https://dev.virtualearth.net/REST/v1/Locations', {
-            countryRegion: "IL",
-            addressLine: address,
-            maxResaults: 1,
-            key: "ApE76x2wWpJAOCGUZE4TJl46UDPFVlyjyC4lBQhndPs8KozGWyVH4_Ol-zV-3eOA"
-        }, function (data) {
-            var coordinates = data.resourceSets[0].resources[0].point.coordinates;
-
-            var map = new Microsoft.Maps.Map(document.getElementById('map'), {
-                center: new Microsoft.Maps.Location(coordinates[0], coordinates[1]),
-                mapTypeId: Microsoft.Maps.MapTypeId.aerial,
-                zoom: 15
-            });
-
-            var pushpin = new Microsoft.Maps.Pushpin(map.getCenter(), null);
-            map.entities.push(pushpin);
-        });
-    }
-</script>
 <h4>Comments</h4>
 <hr />
 <div class="row">
@@ -83,33 +41,9 @@
             </div>
             <a href="https://twitter.com/intent/tweet?button_hashtag=nerfBuff&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Tweet #nerfBuff</a>
             <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
         </form>
     </div>
 
-    <div id="map" style=""height:500px>    </div>
-    <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=ApE76x2wWpJAOCGUZE4TJl46UDPFVlyjyC4lBQhndPs8KozGWyVH4_Ol-zV-3eOA'>
-
-        function map(address) {
-            $.get('https://dev.virtualearth.net/REST/v1/Locations', {
-                countryRegion: "IL",
-                addressLine: address,
-                maxResaults: 1,
-                key: "ApE76x2wWpJAOCGUZE4TJl46UDPFVlyjyC4lBQhndPs8KozGWyVH4_Ol-zV-3eOA"
-            }, function (data) {
-                var coordinates = data.resourceSets[0].resources[0].point.coordinates;
-
-                var map = new Microsoft.Maps.Map(document.getElementById('map'), {
-                    center: new Microsoft.Maps.Location(coordinates[0], coordinates[1]),
-                    mapTypeId: Microsoft.Maps.MapTypeId.aerial,
-                    zoom: 15
-                });
-
-                var pushpin = new Microsoft.Maps.Pushpin(map.getCenter(), null);
-                map.entities.push(pushpin);
-            });
-        }
-    </script>
 </div>
 
 <div>
@@ -118,4 +52,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
 }

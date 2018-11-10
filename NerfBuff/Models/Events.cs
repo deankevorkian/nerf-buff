@@ -8,7 +8,8 @@ namespace NerfBuff.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public DateTime Time { get; set; }
-        public string Location { get; set; }
         public string Author { get; set; }
+        public double Long { get; set; }
+        public double Lat { get; set; }
     }
 }
