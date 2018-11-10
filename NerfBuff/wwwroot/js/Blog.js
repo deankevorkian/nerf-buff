@@ -1,4 +1,5 @@
 ﻿var apiKey = "646f6e96-625e-4ef9-a1c8-6a239865e4af";
+var apiKey69 = "4f3cbc19371a8e60cd38ec2b253720d9";
 
 function PostComment(id) {
     var comments = {
@@ -35,10 +36,24 @@ function LoginUser(userName, password) {
 
 function FetchCurrentFortniteChallenges() {
     $.ajax({
-        type: "GET",
-        url: "https://api.fortnitetracker.com/v1/challenges",
+        type: "POST",
+        dataType: "json",
+        url: "https://fortnite-public-api.theapinetwork.com/prod09/br_motd/get", // "https://api.fortnitetracker.com/v1/challenges",
         headers: {
-            'TRN-Api-Key': apiKey
+            'Authorization': apiKey69,
+            'X-Fortnite-API-Version': 'v1',
+            'content-type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'
         }
+    }).then(callback => {
+        console.log(callback);
+        var html = '<div>';
+        for (var entry of callback.entries) {
+            html += '<h1>' + entry.title + '</h1>';
+            // html += '<h2>Time: ' + new Date(+entry.time).toDateString() + '</h2>';
+            html += '<img src="' + entry.image + '" />';
+            html += '<div>' + entry.body + '</div>';
+        }
+        html += '</div>';
+        $("#events").html(html);
     });
 }
