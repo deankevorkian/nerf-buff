@@ -72,28 +72,25 @@ namespace NerfBuff.Models
 
             modelBuilder.Entity<EventToUser>(entity =>
             {
-                entity.HasKey(e => e.EventId);
+                entity.HasKey(e => new { e.EventId, e.EventUserName });
 
                 entity.ToTable("event_to_user");
 
-                entity.Property(e => e.EventId)
-                    .HasColumnName("event_id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.EventId).HasColumnName("event_id");
 
-                entity.Property(e => e.UserName)
-                    .IsRequired()
-                    .HasColumnName("user_name")
+                entity.Property(e => e.EventUserName)
+                    .HasColumnName("event_user_name")
                     .HasMaxLength(20);
 
                 entity.HasOne(d => d.Event)
-                    .WithOne(p => p.EventToUser)
-                    .HasForeignKey<EventToUser>(d => d.EventId)
+                    .WithMany(p => p.EventToUser)
+                    .HasForeignKey(d => d.EventId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_event_to_user_eventid");
 
-                entity.HasOne(d => d.UserNameNavigation)
+                entity.HasOne(d => d.EventUserNameNavigation)
                     .WithMany(p => p.EventToUser)
-                    .HasForeignKey(d => d.UserName)
+                    .HasForeignKey(d => d.EventUserName)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_event_to_user_username");
             });

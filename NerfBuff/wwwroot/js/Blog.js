@@ -61,9 +61,14 @@ function FetchCurrentFortniteChallenges() {
 function GetRecommendedEvent() {
     $.ajax({
         type: "GET",
-        url: "Events/GetRecommendedEventForUser"
+        dataType: "json",
+        url: "Events/GetRecommendedEventForUser",
+        success: (callback) => {
+            console.log(callback);
+        }
     }).then(item => {
-        var html = '<tr>'
+        console.log(item);
+        /*var html69 = '<tr>'
             + '<td>'
             + item.Title
             + '</td>'
@@ -82,6 +87,6 @@ function GetRecommendedEvent() {
             + '<td>'
             + '</td>'
             + '</tr> ';
-        $("#recommendedEvent").html(html);
+        $("#recommendedEvent").html(html69);*/
     });
 }

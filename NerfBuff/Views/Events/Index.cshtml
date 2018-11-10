@@ -94,10 +94,10 @@
 
                 function addLocationsToMap(EventsLocations) {
 
-                    //var map = new Microsoft.Maps.Map('#myMap', {
-                    //    credentials: 'AsYxj9oP7Drg1hmS86jOLLLtiemAKHzT-qQk5HE30VqKNjzYtwA_0EtKqSDKj-WC',
-                    //    center: new Microsoft.Maps.Location(48.13641, 11.57754)
-                    //});
+                    //Create custom Pushpin
+                    var pin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(eventLocation.lat, eventLocation.long), {
+                        title: eventLocation.eventName
+                    });
 
                     EventsLocations.forEach(function (eventLocation) {
 
@@ -116,8 +116,47 @@
 
     </section>
 
-    <h1 onload="GetRecommendedEvent()">Event recommended for you</h1>
-    <div id="recommendedEvent">
+    <h1>Event recommended for you</h1>
 
-    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Time)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Long)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Lat)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Author)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @ViewBag.RecommendedEvent.Title
+                </td>
+                <td>
+                    @ViewBag.RecommendedEvent.Time
+                </td>
+                <td>
+                    @ViewBag.RecommendedEvent.Long
+                </td>
+                <td>
+                    @ViewBag.RecommendedEvent.Lat
+                </td>
+                <td>
+                    @ViewBag.RecommendedEvent.Author
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </body>

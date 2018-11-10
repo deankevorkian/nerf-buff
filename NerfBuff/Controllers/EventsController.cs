@@ -16,6 +16,7 @@ namespace NerfBuff.Controllers
     {
         public double Long;
         public double Lat;
+        public string EventName;
     }
     public class EventsController : Controller
     {
@@ -30,6 +31,7 @@ namespace NerfBuff.Controllers
                 {
                     Long = Event.Long,
                     Lat = Event.Lat,
+                    EventName = Event.Title
                 };
 
             return Json(EventsLocations.ToList());
@@ -39,6 +41,8 @@ namespace NerfBuff.Controllers
     // GET: Events
     public async Task<IActionResult> Index()
         {
+            var recEvent = CalcRecommendedEventForUser();
+            ViewBag.RecommendedEvent = recEvent;
             return View(await _context.Events.ToListAsync());
         }
 
@@ -172,32 +176,28 @@ namespace NerfBuff.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult GetRecommendedEventForUser()
+        private Events CalcRecommendedEventForUser()
         {
-            const int kNeighbors = 3;
+            const int kNeighbors = 1;
 
-            var knn = new KNearestNeighbors<double[]>(kNeighbors, distance: new Accord.Math.Distances.Euclidean());
+            var knn = new KNearestNeighbors<double[]>(kNeighbors, distance: new Accord.Math.Distances.SquareEuclidean());
 
             if (!HttpContext.Session.TryGetValue("UserName", out var userNameNotEncoded))
             {
-                return RedirectToAction("Index", "Home");
+                return null;
             }
 
             var userName = System.Text.Encoding.UTF8.GetString(userNameNotEncoded);
 
-            var usersEvents = _context.Users;
+            var usersEvents = _context.EventToUser.Include(evToUser => evToUser.Event).Include(evToUser => evToUser.EventUserNameNavigation).OrderBy(s => s.EventUserNameNavigation.BlogUserAge);
 
             LinkedList<double[]> usersAge = new LinkedList<double[]>();
             LinkedList<int> eventIds = new LinkedList<int>();
 
-            foreach (var userEvent in usersEvents)
+            foreach (var userEvent in usersEvents.OrderBy(userEv => userEv.EventId))
             {
-                foreach (var user in userEvent.EventToUser)
-                {
-                    usersAge.AddLast(new double[] { (double)userEvent.BlogUserAge });
-                    eventIds.AddLast(user.EventId);
-                }
+                usersAge.AddLast(new double[] { Convert.ToDouble(userEvent.EventUserNameNavigation.BlogUserAge) });
+                eventIds.AddLast(userEvent.EventId);
             }
 
             var inputs = usersAge.Select(user => user.ToArray()).ToArray();
@@ -212,7 +212,7 @@ namespace NerfBuff.Controllers
             var decision = knn.Decide(currUserAge);
 
             var decidedEvent = _context.Events.First(someEvent => someEvent.Id == decision);
-            return Ok(decidedEvent);
+            return decidedEvent;
         }
     }
 }
