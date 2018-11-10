@@ -172,7 +172,8 @@ namespace NerfBuff.Controllers
             return View();
         }
 
-        private IActionResult GetRecommendedEventForUser()
+        [HttpGet]
+        public IActionResult GetRecommendedEventForUser()
         {
             const int kNeighbors = 3;
 

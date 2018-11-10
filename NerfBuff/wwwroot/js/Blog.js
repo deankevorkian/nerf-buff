@@ -57,3 +57,31 @@ function FetchCurrentFortniteChallenges() {
         $("#events").html(html);
     });
 }
+
+function GetRecommendedEvent() {
+    $.ajax({
+        type: "GET",
+        url: "Events/GetRecommendedEventForUser"
+    }).then(item => {
+        var html = '<tr>'
+            + '<td>'
+            + item.Title
+            + '</td>'
+            + '<td>'
+            + item.Time
+            + '</td>'
+            + '<td>'
+            + item.Long
+            + '</td>'
+            + '<td>'
+            + item.Lat
+            + '</td>'
+            + '<td>'
+            + item.Author
+            + '</td>'
+            + '<td>'
+            + '</td>'
+            + '</tr> ';
+        $("#recommendedEvent").html(html);
+    });
+}
