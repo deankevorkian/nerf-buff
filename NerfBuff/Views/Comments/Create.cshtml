@@ -19,7 +19,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="PostId" class="control-label"></label>
-                <select asp-for="PostId" class ="form-control" asp-items="ViewBag.PostId"></select>
+                <select asp-for="PostId" class="form-control" asp-items="ViewBag.PostId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Author" class="control-label"></label>
@@ -39,8 +39,11 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
+            <a href="https://twitter.com/intent/tweet?button_hashtag=nerfBuff&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Tweet #nerfBuff</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </form>
     </div>
+
 </div>
 
 <div>
@@ -49,4 +52,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
 }
