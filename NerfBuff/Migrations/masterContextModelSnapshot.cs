@@ -52,8 +52,9 @@ namespace NerfBuff.Migrations
                     b.Property<string>("Author")
                         .HasMaxLength(10);
 
-                    b.Property<string>("Location")
-                        .HasMaxLength(100);
+                    b.Property<string>("Lat");
+
+                    b.Property<string>("Long");
 
                     b.Property<DateTime?>("Time")
                         .HasColumnType("datetime");
