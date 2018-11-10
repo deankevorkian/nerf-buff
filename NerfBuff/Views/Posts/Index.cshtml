@@ -3,13 +3,11 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-    ViewBag.IsUserAdmin = true;
 }
 
 <h1>Fortnite Blog</h1>
 
-@if ((bool)ViewBag.IsUserAdmin)
+@if ((bool)ViewBag.IsAdmin)
 {
 <p>
     <a asp-action="Create">Create New</a>
@@ -37,7 +35,7 @@
     </header>
     <p style="font-size:16px">@(post.Content)</p>
 
-    @if ((bool)ViewBag.IsUserAdmin)
+    @if ((bool)ViewBag.IsAdmin)
     {
         <p>
             <a asp-action="Edit" asp-route-id="@post.Id">Edit</a> |

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NerfBuff.Models;
+using Newtonsoft.Json;
 
 namespace NerfBuff.Controllers
 {
@@ -16,6 +17,15 @@ namespace NerfBuff.Controllers
         // GET: Posts
         public IActionResult Index(string Title, string Author, string Content)
         {
+            if (HttpContext.Session.TryGetValue("IsAdmin", out var userJson))
+            {
+                ViewBag.IsAdmin = System.Text.Encoding.UTF8.GetString(userJson) == "True";
+            }
+            else
+            {
+                ViewBag.IsAdmin = false;
+            }
+
             var masterContext = _context.Posts.Include(c => c.Comments).ToList();
             if (!string.IsNullOrEmpty(Title))
             {
