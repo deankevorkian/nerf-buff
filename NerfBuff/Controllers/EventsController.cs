@@ -38,9 +38,18 @@ namespace NerfBuff.Controllers
         }
 
 
-    // GET: Events
-    public async Task<IActionResult> Index()
+        // GET: Events
+        public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.TryGetValue("IsAdmin", out var userJson))
+            {
+                ViewBag.IsAdmin = System.Text.Encoding.UTF8.GetString(userJson) == "True";
+            }
+            else
+            {
+                ViewBag.IsAdmin = false;
+            }
+
             var recEvent = CalcRecommendedEventForUser();
             ViewBag.RecommendedEvent = recEvent;
             return View(await _context.Events.ToListAsync());

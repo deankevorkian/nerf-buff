@@ -4,12 +4,15 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<body onload="GetRecommendedEvent()">
-    <h2>Index</h2>
+<body>
+    @if (ViewBag.IsAdmin)
+    {
+        <h2>Index</h2>
 
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+    }
 
     <table class="table">
         <thead>
@@ -51,11 +54,14 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Author)
                     </td>
+                    @if (ViewBag.IsAdmin)
+                    {
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
+                    }
                 </tr>
             }
         </tbody>
@@ -116,47 +122,50 @@
 
     </section>
 
-    <h1>Event recommended for you</h1>
+    @if (ViewBag.RecommendedEvent != null)
+    {
+        <h1>Event recommended for you</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Title)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Time)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Long)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Lat)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Author)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    @ViewBag.RecommendedEvent.Title
-                </td>
-                <td>
-                    @ViewBag.RecommendedEvent.Time
-                </td>
-                <td>
-                    @ViewBag.RecommendedEvent.Long
-                </td>
-                <td>
-                    @ViewBag.RecommendedEvent.Lat
-                </td>
-                <td>
-                    @ViewBag.RecommendedEvent.Author
-                </td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Time)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Long)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Lat)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Author)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @ViewBag.RecommendedEvent.Title
+                    </td>
+                    <td>
+                        @ViewBag.RecommendedEvent.Time
+                    </td>
+                    <td>
+                        @ViewBag.RecommendedEvent.Long
+                    </td>
+                    <td>
+                        @ViewBag.RecommendedEvent.Lat
+                    </td>
+                    <td>
+                        @ViewBag.RecommendedEvent.Author
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }
 </body>
