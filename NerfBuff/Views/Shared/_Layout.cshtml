@@ -30,10 +30,12 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="Users" asp-action="Login">Login</a></li>
                     <li><a asp-area="" asp-controller="Posts" asp-action="Index">Blog</a></li>
                     <li><a asp-area="" asp-controller="Comments" asp-action="Index">Comments</a></li>
                     <li><a asp-area="" asp-controller="Events" asp-action="Index">Events</a></li>
                     <li><a asp-area="" asp-controller="Stats" asp-action="Index">Statistics</a></li>
+                    <li><a asp-area="" asp-controller="Challenges" asp-action="Index">Active Challenges</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
@@ -47,7 +49,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - NerfBuff</p>
+            <p>&copy; 2018 - Fortnite blog</p>
         </footer>
     </div>
 

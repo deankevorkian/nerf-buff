@@ -69,5 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="arsenal.publish.xml" />
+    <PostDeploy Include="users_init.sql" />
   </ItemGroup>
 </Project>

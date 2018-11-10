@@ -6,22 +6,48 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NerfBuff.Models;
+using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace NerfBuff.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly masterContext _context;
-
-        public UsersController(masterContext context)
-        {
-            _context = context;
-        }
+        private readonly masterContext _context = new masterContext();
 
         // GET: Users
         public async Task<IActionResult> Index()
         {
             return View(await _context.Users.ToListAsync());
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login([Bind("BlogUserName", "BlogUserPassword")]Users userToBeLogged)
+        {
+            if (ModelState.IsValid)
+            {
+                // Check if the user login details are ok
+                var result = await _context.Users.FirstOrDefaultAsync(user => user.BlogUserName == userToBeLogged.BlogUserName && user.BlogUserPassword == userToBeLogged.BlogUserPassword);
+
+                if (result == null)
+                {
+                    ModelState.AddModelError("", "The Username or Password you entered are incorrect. Please check your info and try again.");
+                    return View();
+                }
+
+                HttpContext.Session.SetString("UserJson", JsonConvert.SerializeObject(result));
+
+                return RedirectToAction("Index", "Home", null);
+            }
+
+            return View();
         }
 
         // GET: Users/Details/5
