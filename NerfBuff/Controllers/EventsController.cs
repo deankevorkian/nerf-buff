@@ -172,13 +172,46 @@ namespace NerfBuff.Controllers
             return View();
         }
 
-        private int? GetRecommendedEventForUser()
+        private IActionResult GetRecommendedEventForUser()
         {
             const int kNeighbors = 3;
 
-            var knn = new KNearestNeighbors<double[]>(kNeighbors, distance: new SquareEuclidean());
+            var knn = new KNearestNeighbors<double[]>(kNeighbors, distance: new Accord.Math.Distances.Euclidean());
 
-            var visitedEvents = _context.Events.Where(event => event.)
+            if (!HttpContext.Session.TryGetValue("UserName", out var userNameNotEncoded))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var userName = System.Text.Encoding.UTF8.GetString(userNameNotEncoded);
+
+            var usersEvents = _context.Users;
+
+            LinkedList<double[]> usersAge = new LinkedList<double[]>();
+            LinkedList<int> eventIds = new LinkedList<int>();
+
+            foreach (var userEvent in usersEvents)
+            {
+                foreach (var user in userEvent.EventToUser)
+                {
+                    usersAge.AddLast(new double[] { (double)userEvent.BlogUserAge });
+                    eventIds.AddLast(user.EventId);
+                }
+            }
+
+            var inputs = usersAge.Select(user => user.ToArray()).ToArray();
+            var outputs = eventIds.ToArray();
+
+            knn.Learn(inputs, outputs);
+
+            var currUserObj = _context.Users.First(users => users.BlogUserName == userName);
+
+            var currUserAge = new double[] { currUserObj.BlogUserAge };
+
+            var decision = knn.Decide(currUserAge);
+
+            var decidedEvent = _context.Events.First(someEvent => someEvent.Id == decision);
+            return Ok(decidedEvent);
         }
     }
 }

@@ -11,5 +11,7 @@ namespace NerfBuff.Models
         public string Author { get; set; }
         public double Long { get; set; }
         public double Lat { get; set; }
+
+        public EventToUser EventToUser { get; set; }
     }
 }

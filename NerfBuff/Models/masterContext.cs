@@ -17,6 +17,7 @@ namespace NerfBuff.Models
 
         public virtual DbSet<Comments> Comments { get; set; }
         public virtual DbSet<Events> Events { get; set; }
+        public virtual DbSet<EventToUser> EventToUser { get; set; }
         public virtual DbSet<Posts> Posts { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
@@ -62,18 +63,39 @@ namespace NerfBuff.Models
                     .IsRequired()
                     .HasMaxLength(10);
 
-                entity.Property(e => e.Long)
-                    .IsRequired()
-                    .HasMaxLength(100);
-                entity.Property(e => e.Lat)
-                    .IsRequired()
-                    .HasMaxLength(100);
-
                 entity.Property(e => e.Time).HasColumnType("datetime");
 
                 entity.Property(e => e.Title)
                     .IsRequired()
                     .HasMaxLength(10);
+            });
+
+            modelBuilder.Entity<EventToUser>(entity =>
+            {
+                entity.HasKey(e => e.EventId);
+
+                entity.ToTable("event_to_user");
+
+                entity.Property(e => e.EventId)
+                    .HasColumnName("event_id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.UserName)
+                    .IsRequired()
+                    .HasColumnName("user_name")
+                    .HasMaxLength(20);
+
+                entity.HasOne(d => d.Event)
+                    .WithOne(p => p.EventToUser)
+                    .HasForeignKey<EventToUser>(d => d.EventId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_event_to_user_eventid");
+
+                entity.HasOne(d => d.UserNameNavigation)
+                    .WithMany(p => p.EventToUser)
+                    .HasForeignKey(d => d.UserName)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_event_to_user_username");
             });
 
             modelBuilder.Entity<Posts>(entity =>
@@ -105,6 +127,8 @@ namespace NerfBuff.Models
                     .ValueGeneratedNever();
 
                 entity.Property(e => e.BlogIsAdmin).HasColumnName("blog_is_admin");
+
+                entity.Property(e => e.BlogUserAge).HasColumnName("blog_user_age");
 
                 entity.Property(e => e.BlogUserPassword)
                     .IsRequired()
