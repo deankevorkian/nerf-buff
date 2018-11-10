@@ -1,4 +1,6 @@
-﻿function PostComment(id) {
+﻿var apiKey = "646f6e96-625e-4ef9-a1c8-6a239865e4af";
+
+function PostComment(id) {
     var comments = {
         //Id: 1,
         PostId: id,
@@ -14,5 +16,29 @@
         success: function (data) {
             window.location.reload();
         },
+    });
+}
+
+function LoginUser(userName, password) {
+    var user = {
+        BlogUserName: userName,
+        BlogUserPassword: password
+    };
+
+    // Fuck I just fucking love JavaScript, especially vanilla ES5 JavaScript!! WOOHOO
+    $.ajax({
+        type: "POST",
+        url: "Users/Login",
+        data: user
+    });
+}
+
+function FetchCurrentFortniteChallenges() {
+    $.ajax({
+        type: "GET",
+        url: "https://api.fortnitetracker.com/v1/challenges",
+        headers: {
+            'TRN-Api-Key': apiKey
+        }
     });
 }
