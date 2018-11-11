@@ -169,8 +169,17 @@ namespace NerfBuff.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var events = await _context.Events.FindAsync(id);
-            _context.Events.Remove(events);
+            //var events = await _context.Events.FindAsync(id);
+            var events2 = await _context.Events.Include(ev => ev.EventToUser).FirstOrDefaultAsync(ev => ev.Id == id);
+            if (events2 == null)
+            {
+                return NotFound();
+            }
+
+            _context.EventToUser.RemoveRange(events2.EventToUser);
+
+            //_context.Events.Remove(events);
+            _context.Events.Remove(events2);
             //TODO: add delete event to user
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -211,6 +220,10 @@ namespace NerfBuff.Controllers
             }
 
             var inputs = usersAge.Select(user => user.ToArray()).ToArray();
+            if (inputs.Length <= 1)
+            {
+                return null;
+            }
             var outputs = eventIds.ToArray();
 
             knn.Learn(inputs, outputs);
@@ -218,9 +231,16 @@ namespace NerfBuff.Controllers
             var currUserObj = _context.Users.First(users => users.BlogUserName == userName);
 
             var currUserAge = new double[] { currUserObj.BlogUserAge };
+            int decision;
+            try
+            {
+                decision = knn.Decide(currUserAge);
 
-            var decision = knn.Decide(currUserAge);
-
+            }
+            catch (Exception)
+            {
+                return null;
+            }
             var decidedEvent = _context.Events.First(someEvent => someEvent.Id == decision);
             return decidedEvent;
         }
