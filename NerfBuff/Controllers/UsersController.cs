@@ -187,7 +187,7 @@ namespace NerfBuff.Controllers
 
             if (users2 == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "user does not exist - could not delete" });
             }
 
             _context.EventToUser.RemoveRange(users2.EventToUser);

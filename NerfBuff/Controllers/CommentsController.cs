@@ -176,7 +176,12 @@ namespace NerfBuff.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var comments = await _context.Comments.FindAsync(id);
+            var comments = await _context.Comments.FirstOrDefaultAsync(item => item.Id == id);
+
+            if (comments == null)
+            {
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "comment does not exist - could not delete" });
+            }
             _context.Comments.Remove(comments);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
