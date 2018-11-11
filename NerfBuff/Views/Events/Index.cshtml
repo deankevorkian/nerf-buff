@@ -32,37 +32,51 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Author)
                 </th>
-                <th></th>
+                <th>SUBSCRIBE</th>
+                <th>
+
+                </th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Time)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Long)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Lat)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Author)
-                    </td>
-                    @if (ViewBag.IsAdmin)
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Long)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author)
+                </td>
+                <td>
+                    @if (ViewBag.UserName != null && !item.EventToUser.Any(evToUs => evToUs.EventUserName.Trim() == ViewBag.UserName.Trim()))
                     {
+                        <a asp-action="Subscribe" asp-route-id="@item.Id">SUBSCRIBE</a>
+                    }
+                    else if (ViewBag.UserName != null)
+                    {
+                        <a asp-action="Unsubscribe" asp-route-id="@item.Id">Unsubscribe</a>
+
+                    }
+                </td>
+                @if (ViewBag.IsAdmin)
+                {
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
-                    }
-                </tr>
+                }
+            </tr>
             }
         </tbody>
     </table>

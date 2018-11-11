@@ -41,6 +41,10 @@ namespace NerfBuff.Controllers
         // GET: Events
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.TryGetValue("UserName", out var userName))
+            {
+                ViewBag.UserName = System.Text.Encoding.UTF8.GetString(userName);
+            }
             if (HttpContext.Session.TryGetValue("IsAdmin", out var userJson))
             {
                 ViewBag.IsAdmin = System.Text.Encoding.UTF8.GetString(userJson) == "True";
@@ -52,7 +56,7 @@ namespace NerfBuff.Controllers
 
             var recEvent = CalcRecommendedEventForUser();
             ViewBag.RecommendedEvent = recEvent;
-            return View(await _context.Events.ToListAsync());
+            return View(await _context.Events.Include(ev => ev.EventToUser).ToListAsync());
         }
 
         // GET: Events/Details/5
@@ -145,6 +149,75 @@ namespace NerfBuff.Controllers
             }
             return View(events);
         }
+
+        public async Task<IActionResult> Subscribe(int? id)
+        {
+            if (!id.HasValue)
+            {
+                return NotFound();
+            }
+
+            if (!HttpContext.Session.TryGetValue("UserName", out var userNameNotEncoded))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            var userName = System.Text.Encoding.UTF8.GetString(userNameNotEncoded);
+
+            try
+            {
+                var eventToUser = new EventToUser()
+                {
+                    EventId = id.Value,
+                    EventUserName = userName
+                };
+
+                _context.EventToUser.Add(eventToUser);
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Unsubscribe(int? id)
+        {
+            if (!id.HasValue)
+            {
+                return NotFound();
+            }
+
+            if (!HttpContext.Session.TryGetValue("UserName", out var userNameNotEncoded))
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            var userName = System.Text.Encoding.UTF8.GetString(userNameNotEncoded);
+
+            try
+            {
+                var eventToUser = new EventToUser()
+                {
+                    EventId = id.Value,
+                    EventUserName = userName
+                };
+
+                _context.EventToUser.Remove(eventToUser);
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
+        }
+
 
         // GET: Events/Delete/5
         public async Task<IActionResult> Delete(int? id)
