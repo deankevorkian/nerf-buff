@@ -171,6 +171,7 @@ namespace NerfBuff.Controllers
         {
             var events = await _context.Events.FindAsync(id);
             _context.Events.Remove(events);
+            //TODO: add delete event to user
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
