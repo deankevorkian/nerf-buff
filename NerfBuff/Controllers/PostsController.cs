@@ -50,14 +50,14 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             var posts = await _context.Posts
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (posts == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             return View(posts);
@@ -94,13 +94,13 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             var posts = await _context.Posts.FindAsync(id);
             if (posts == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
             return View(posts);
         }
@@ -114,7 +114,7 @@ namespace NerfBuff.Controllers
         {
             if (id != posts.Id)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             if (ModelState.IsValid)
@@ -128,7 +128,7 @@ namespace NerfBuff.Controllers
                 {
                     if (!PostsExists(posts.Id))
                     {
-                        return NotFound();
+                        return RedirectToAction("Error", "Home");
                     }
                     else
                     {
@@ -145,14 +145,14 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             var posts = await _context.Posts
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (posts == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             return View(posts);

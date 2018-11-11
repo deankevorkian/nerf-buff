@@ -15,7 +15,7 @@ INSERT INTO Users (blog_is_admin, blog_user_name, blog_user_password, blog_user_
 
 INSERT INTO event_to_user (event_id, event_user_name) VALUES (2, 'dindush');
 INSERT INTO event_to_user (event_id, event_user_name) VALUES (3, 'zafig');
-INSERT INTO event_to_user (event_id, event_user_name) VALUES (25, 'danda');
+INSERT INTO event_to_user (event_id, event_user_name) VALUES (4, 'danda');
 INSERT INTO event_to_user (event_id, event_user_name) VALUES (2, 'danda');
 INSERT INTO event_to_user (event_id, event_user_name) VALUES (3, 'danda');
 -- TODO - Insert event-to-user relations

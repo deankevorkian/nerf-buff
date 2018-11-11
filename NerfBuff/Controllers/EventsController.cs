@@ -60,14 +60,14 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             var events = await _context.Events
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (events == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             return View(events);
@@ -83,9 +83,16 @@ namespace NerfBuff.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Time,Long,Lat,Author")] Events events)
+        public async Task<IActionResult> Create([Bind("Title,Time,Long,Lat")] Events events)
         {
+            int z = !_context.Events.Any() ? 1 : _context.Events.Max(x => x.Id);
+            events.Id = z + 1;
+
+            if (!HttpContext.Session.TryGetValue("UserName", out var userName))
+            {
+                return RedirectToAction("Users", "Login");
+            }
+            events.Author = System.Text.Encoding.UTF8.GetString(userName);
             if (ModelState.IsValid)
             {
                 _context.Add(events);
@@ -100,13 +107,13 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             var events = await _context.Events.FindAsync(id);
             if (events == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
             return View(events);
         }
@@ -120,7 +127,7 @@ namespace NerfBuff.Controllers
         {
             if (id != events.Id)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             if (ModelState.IsValid)
@@ -134,7 +141,7 @@ namespace NerfBuff.Controllers
                 {
                     if (!EventsExists(events.Id))
                     {
-                        return NotFound();
+                        return RedirectToAction("Error", "Home");
                     }
                     else
                     {
@@ -151,14 +158,14 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             var events = await _context.Events
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (events == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             return View(events);
@@ -173,7 +180,7 @@ namespace NerfBuff.Controllers
             var events2 = await _context.Events.Include(ev => ev.EventToUser).FirstOrDefaultAsync(ev => ev.Id == id);
             if (events2 == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             _context.EventToUser.RemoveRange(events2.EventToUser);

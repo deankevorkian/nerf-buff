@@ -69,14 +69,14 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             var users = await _context.Users
                 .FirstOrDefaultAsync(m => m.BlogUserName == id);
             if (users == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             return View(users);
@@ -109,13 +109,13 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             var users = await _context.Users.FindAsync(id);
             if (users == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
             return View(users);
         }
@@ -129,7 +129,7 @@ namespace NerfBuff.Controllers
         {
             if (id != users.BlogUserName)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             if (ModelState.IsValid)
@@ -143,7 +143,7 @@ namespace NerfBuff.Controllers
                 {
                     if (!UsersExists(users.BlogUserName))
                     {
-                        return NotFound();
+                        return RedirectToAction("Error", "Home");
                     }
                     else
                     {
@@ -160,14 +160,14 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             var users = await _context.Users
                 .FirstOrDefaultAsync(m => m.BlogUserName == id);
             if (users == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             return View(users);
