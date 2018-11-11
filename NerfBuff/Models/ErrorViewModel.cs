@@ -6,6 +6,6 @@ namespace NerfBuff.Models
     {
         public string ErrorMessage { get; set; }
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(ErrorMessage);
+        public bool ShowErrorMessage => !string.IsNullOrEmpty(ErrorMessage);
     }
 }

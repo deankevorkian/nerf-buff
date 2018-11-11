@@ -37,7 +37,7 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "comment does not exist - could not view details" });
             }
 
             var comments = await _context.Comments
@@ -45,7 +45,7 @@ namespace NerfBuff.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (comments == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "comment does not exist - could not view details" });
             }
 
             return View(comments);
@@ -104,13 +104,13 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "comment does not exist - could not view edit" });
             }
 
             var comments = await _context.Comments.FindAsync(id);
             if (comments == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "comment does not exist - could not view edit" });
             }
             ViewData["PostId"] = new SelectList(_context.Posts, "Id", "Id", comments.PostId);
             return View(comments);
@@ -125,7 +125,7 @@ namespace NerfBuff.Controllers
         {
             if (id != comments.Id)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "comment does not exist - could not edit" });
             }
 
             if (ModelState.IsValid)
@@ -139,7 +139,7 @@ namespace NerfBuff.Controllers
                 {
                     if (!CommentsExists(comments.Id))
                     {
-                        return RedirectToAction("Error", "Home");
+                        return RedirectToAction("ErrorWithMessage", "Home", new { error = "comment does not exist - could not edit" });
                     }
                     else
                     {
@@ -157,7 +157,7 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "comment does not exist - could not delete" });
             }
 
             var comments = await _context.Comments
@@ -165,7 +165,7 @@ namespace NerfBuff.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (comments == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "comment does not exist - could not delete" });
             }
 
             return View(comments);

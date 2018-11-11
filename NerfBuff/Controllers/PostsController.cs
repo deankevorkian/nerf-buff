@@ -50,14 +50,14 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "post does not exist - could not vies" });
             }
 
             var posts = await _context.Posts
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (posts == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "post does not exist - could not view" });
             }
 
             return View(posts);
@@ -94,13 +94,13 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "post does not exist - could not edit" });
             }
 
             var posts = await _context.Posts.FindAsync(id);
             if (posts == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "post does not exist - could not edit" });
             }
             return View(posts);
         }
@@ -114,7 +114,7 @@ namespace NerfBuff.Controllers
         {
             if (id != posts.Id)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "post does not exist - could not edit" });
             }
 
             if (ModelState.IsValid)
@@ -128,7 +128,7 @@ namespace NerfBuff.Controllers
                 {
                     if (!PostsExists(posts.Id))
                     {
-                        return RedirectToAction("Error", "Home");
+                        return RedirectToAction("ErrorWithMessage", "Home", new { error = "post does not exist - could not edit" });
                     }
                     else
                     {
@@ -145,14 +145,14 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "post does not exist - could not delete" });
             }
 
             var posts = await _context.Posts
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (posts == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "post does not exist - could not delete" });
             }
 
             return View(posts);
@@ -166,7 +166,7 @@ namespace NerfBuff.Controllers
             var posts2 = await _context.Posts.Include(post => post.Comments).FirstOrDefaultAsync(item => item.Id == id);
             if (posts2 == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "post does not exist - could not delete" });
             }
 
             _context.Comments.RemoveRange(posts2.Comments);

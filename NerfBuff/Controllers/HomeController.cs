@@ -51,7 +51,14 @@ namespace NerfBuff.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { ErrorMessage = "hi" ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel { ErrorMessage = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        
+        [AllowAnonymous]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult ErrorWithMessage(string error)
+        {
+            return View(new ErrorViewModel { ErrorMessage = error ?? HttpContext.TraceIdentifier });
         }
     }
 }

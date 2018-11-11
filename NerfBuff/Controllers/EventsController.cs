@@ -64,14 +64,14 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "event does not exist - could not view details" });
             }
 
             var events = await _context.Events
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (events == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "event does not exist - could not view details" });
             }
 
             return View(events);
@@ -111,13 +111,13 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "event does not exist - could not edit" });
             }
 
             var events = await _context.Events.FindAsync(id);
             if (events == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "event does not exist - could not edit" });
             }
             return View(events);
         }
@@ -131,7 +131,7 @@ namespace NerfBuff.Controllers
         {
             if (id != events.Id)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "event does not exist - could not edit" });
             }
 
             if (ModelState.IsValid)
@@ -145,7 +145,7 @@ namespace NerfBuff.Controllers
                 {
                     if (!EventsExists(events.Id))
                     {
-                        return RedirectToAction("Error", "Home");
+                        return RedirectToAction("ErrorWithMessage", "Home", new { error = "event does not exist - could not edit" });
                     }
                     else
                     {
@@ -231,14 +231,14 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "event does not exist - could not delete" });
             }
 
             var events = await _context.Events
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (events == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "event does not exist - could not delete" });
             }
 
             return View(events);
@@ -253,7 +253,7 @@ namespace NerfBuff.Controllers
             var events2 = await _context.Events.Include(ev => ev.EventToUser).FirstOrDefaultAsync(ev => ev.Id == id);
             if (events2 == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "event does not exist - could not delete" });
             }
 
             _context.EventToUser.RemoveRange(events2.EventToUser);

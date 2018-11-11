@@ -69,14 +69,14 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "user does not exist - could not view" });
             }
 
             var users = await _context.Users
                 .FirstOrDefaultAsync(m => m.BlogUserName == id);
             if (users == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "user does not exist - could not view" });
             }
 
             return View(users);
@@ -112,13 +112,13 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "user does not exist - could not edit" });
             }
 
             var users = await _context.Users.FindAsync(id);
             if (users == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "user does not exist - could not edit" });
             }
             return View(users);
         }
@@ -134,7 +134,7 @@ namespace NerfBuff.Controllers
 
             if (id != users.BlogUserName)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "user does not exist - could not edit" });
             }
 
             if (ModelState.IsValid)
@@ -148,7 +148,7 @@ namespace NerfBuff.Controllers
                 {
                     if (!UsersExists(users.BlogUserName))
                     {
-                        return RedirectToAction("Error", "Home");
+                        return RedirectToAction("ErrorWithMessage", "Home", new { error = "user does not exist - could not edit" });
                     }
                     else
                     {
@@ -165,14 +165,14 @@ namespace NerfBuff.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "user does not exist - could not delete" });
             }
 
             var users = await _context.Users
                 .FirstOrDefaultAsync(m => m.BlogUserName == id);
             if (users == null)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("ErrorWithMessage", "Home", new { error = "user does not exist - could not delete" });
             }
 
             return View(users);
