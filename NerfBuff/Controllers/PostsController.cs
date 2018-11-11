@@ -73,15 +73,17 @@ namespace NerfBuff.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Author,Date,Content")] Posts posts)
+        public async Task<IActionResult> Create([Bind("Title,Date,Content")] Posts posts)
         {
-            if (PostsExists(posts.Id))
+            int z = !_context.Posts.Any() ? 1 : _context.Posts.Max(x => x.Id);
+            posts.Id = z + 1;
+            
+            if (!HttpContext.Session.TryGetValue("UserName", out var userName))
             {
-                var z = _context.Posts.Select((x) => x.Id).OrderByDescending((y) => y).ToList();
-                posts.Id = z[0] + 1;
+                return RedirectToAction("Login", "Users");
             }
 
+            posts.Author = System.Text.Encoding.UTF8.GetString(userName);
             _context.Add(posts);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
