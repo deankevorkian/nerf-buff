@@ -63,7 +63,7 @@ namespace NerfBuff.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PostId,Author,Content,Date")] Comments comments)
+        public async Task<IActionResult> Create([Bind("PostId,Author,Content,Date")] Comments comments)
         {
             comments.Author = comments.Author == null ? "Anon" : comments.Author;
             comments.Date = DateTime.Now;
@@ -81,7 +81,12 @@ namespace NerfBuff.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCommentAsync(Comments comment)
         {
-            comment.Author = comment.Author == null ? "Anon" : comment.Author;
+            if (!HttpContext.Session.TryGetValue("UserName", out var userName))
+            {
+                return RedirectToAction("Login", "Users");
+            }
+
+            comment.Author = System.Text.Encoding.UTF8.GetString(userName);
             comment.Date = DateTime.Now;
             if (CommentsExists(comment.Id))
             {
