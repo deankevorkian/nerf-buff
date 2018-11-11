@@ -183,8 +183,15 @@ namespace NerfBuff.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var users = await _context.Users.FindAsync(id);
-            _context.Users.Remove(users);
+            var users2 = await _context.Users.Include(user => user.EventToUser).FirstOrDefaultAsync(item => item.BlogUserName == id);
+
+            if (users2 == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            _context.EventToUser.RemoveRange(users2.EventToUser);
+            _context.Users.Remove(users2);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
