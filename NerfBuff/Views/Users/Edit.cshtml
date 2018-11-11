@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="BlogUserName" />
+            <input type="hidden" asp-for="BlogUserName" class="form-control" />
             <div class="form-group">
                 <label asp-for="BlogUserPassword" class="control-label"></label>
                 <input asp-for="BlogUserPassword" class="form-control" />
@@ -24,6 +24,11 @@
                         <input asp-for="BlogIsAdmin" /> @Html.DisplayNameFor(model => model.BlogIsAdmin)
                     </label>
                 </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="BlogUserAge" class="control-label"></label>
+                <input asp-for="BlogUserAge" class="form-control" />
+                <span asp-validation-for="BlogUserAge" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

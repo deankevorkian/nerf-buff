@@ -163,8 +163,14 @@ namespace NerfBuff.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var posts = await _context.Posts.FindAsync(id);
-            _context.Posts.Remove(posts);
+            var posts2 = await _context.Posts.Include(post => post.Comments).FirstOrDefaultAsync(item => item.Id == id);
+            if (posts2 == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            _context.Comments.RemoveRange(posts2.Comments);
+            _context.Posts.Remove(posts2);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

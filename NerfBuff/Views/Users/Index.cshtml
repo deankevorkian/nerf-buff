@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.BlogUserName)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.BlogUserPassword)
             </th>
             <th>
@@ -24,6 +27,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BlogUserName)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.BlogUserPassword)
             </td>

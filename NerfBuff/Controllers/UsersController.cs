@@ -93,13 +93,16 @@ namespace NerfBuff.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BlogUserName,BlogUserPassword,BlogIsAdmin")] Users users)
+        public async Task<IActionResult> Create([Bind("BlogUserName,BlogUserPassword,BlogUserAge")] Users users)
         {
             if (ModelState.IsValid)
             {
+                users.BlogIsAdmin = false;
+
                 _context.Add(users);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                return await Login(users);
             }
             return View(users);
         }
@@ -125,8 +128,10 @@ namespace NerfBuff.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("BlogUserName,BlogUserPassword,BlogIsAdmin")] Users users)
+        public async Task<IActionResult> Edit(string id, [Bind("BlogUserName,BlogUserPassword,BlogIsAdmin,BlogUserAge")] Users users)
         {
+            ModelState.Remove("BlogUserName");
+
             if (id != users.BlogUserName)
             {
                 return RedirectToAction("Error", "Home");
